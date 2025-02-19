@@ -1,0 +1,15 @@
+package name.webdizz.poc.rules.engine;
+
+import name.webdizz.poc.rules.engine.domain.Consumer;
+
+global name.webdizz.poc.rules.engine.domain.Decision decision;
+
+dialect "mvel"
+
+rule "Validate Sampling Eligibility"
+    agenda-group "sampling"
+    when 
+        Consumer(daysSinceRecentSample < 10)
+    then 
+        decision.approve();
+end
