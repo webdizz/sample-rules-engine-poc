@@ -1,15 +1,44 @@
 package name.webdizz.poc.rules.engine;
 
 import name.webdizz.poc.rules.engine.domain.Consumer;
+import name.webdizz.poc.rules.engine.domain.DecisionReason;
 
 global name.webdizz.poc.rules.engine.domain.Decision decision;
+global name.webdizz.poc.rules.engine.domain.DualCadenceExecutionContext context;
 
 dialect "mvel"
 
-rule "Validate Sampling Eligibility"
-    agenda-group "sampling"
+
+rule "approve consumer sample"
+    salience 1
+    activation-group "cadence-check"
     when 
-        Consumer(daysSinceRecentSample < 10)
+        Consumer(
+            (daysSinceRecentSample <= context.firstCadenceDays && samplesDuringFirstCadence < context.allowedSamplesDuringFirstCadence) 
+            || 
+            (daysSinceRecentSample <= context.secondCadenceDays && samplesDuringSecondCadence < context.allowedSamplesDuringSecondCadence)
+            ||
+            (daysSinceRecentSample > context.secondCadenceDays)
+        )
     then 
         decision.approve();
+end
+
+rule "check consumer samples during first cadence"
+    salience 10
+    activation-group "cadence-check"
+    when 
+        Consumer(daysSinceRecentSample < context.firstCadenceDays && samplesDuringFirstCadence > context.allowedSamplesDuringFirstCadence)
+    then 
+        decision.setReason("more then allowed during first cadence");
+end
+
+
+rule "check consumer samples during second cadence"
+    salience 20
+    activation-group "cadence-check"
+    when 
+        Consumer(daysSinceRecentSample < context.secondCadenceDays && samplesDuringSecondCadence > context.allowedSamplesDuringSecondCadence)
+    then 
+        decision.setReason("more then allowed during second cadence");
 end

@@ -1,23 +1,27 @@
 package name.webdizz.poc.rules.engine.domain;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@ToString
 public class Decision {
 
     private boolean approved;
+    private String reason;
 
     public Decision() {
         this.approved = false;
     }
 
-    public Decision approve() {
+    public void approve() {
         this.approved = true;
-        return this;
     }
 
-    public Decision reject() {
+    public void reject(String reason) {
         this.approved = false;
-        return this;
+        this.reason = reason;
     }
 }
