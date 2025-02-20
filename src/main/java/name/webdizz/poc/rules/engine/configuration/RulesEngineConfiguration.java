@@ -8,7 +8,7 @@ import org.kie.api.builder.KieFileSystem;
 import org.kie.api.builder.KieModule;
 import org.kie.api.builder.KieRepository;
 import org.kie.api.runtime.KieContainer;
-import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.StatelessKieSession;
 import org.kie.internal.io.ResourceFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,7 +54,7 @@ public class RulesEngineConfiguration {
     }
 
     @Bean
-    public KieSession kieSession(KieContainer kieContainer) {
-        return kieContainer.newKieSession();
+    public StatelessKieSession kieSession(KieContainer kieContainer) {
+        return kieContainer.newStatelessKieSession();
     }
 }

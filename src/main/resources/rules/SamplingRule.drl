@@ -28,7 +28,7 @@ rule "check consumer samples during first cadence"
     salience 10
     activation-group "cadence-check"
     when 
-        Consumer(daysSinceRecentSample < context.firstCadenceDays && samplesDuringFirstCadence > context.allowedSamplesDuringFirstCadence)
+        Consumer(daysSinceRecentSample < context.firstCadenceDays && samplesDuringFirstCadence >= context.allowedSamplesDuringFirstCadence)
     then 
         decision.setReason("more then allowed during first cadence");
 end
@@ -38,7 +38,7 @@ rule "check consumer samples during second cadence"
     salience 20
     activation-group "cadence-check"
     when 
-        Consumer(daysSinceRecentSample < context.secondCadenceDays && samplesDuringSecondCadence > context.allowedSamplesDuringSecondCadence)
+        Consumer(daysSinceRecentSample < context.secondCadenceDays && samplesDuringSecondCadence >= context.allowedSamplesDuringSecondCadence)
     then 
         decision.setReason("more then allowed during second cadence");
 end
