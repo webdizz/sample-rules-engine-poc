@@ -22,6 +22,7 @@ rule "approve consumer sample"
         )
     then 
         decision.approve();
+        decision.setReason(DecisionReason.ALLOWED);
 end
 
 rule "check consumer samples during first cadence"
@@ -30,7 +31,7 @@ rule "check consumer samples during first cadence"
     when 
         Consumer(daysSinceRecentSample < context.firstCadenceDays && samplesDuringFirstCadence >= context.allowedSamplesDuringFirstCadence)
     then 
-        decision.setReason("more then allowed during first cadence");
+        decision.setReason(DecisionReason.REASON_MORE_THEN_ALLOWED_SAMPLES);
 end
 
 
@@ -40,5 +41,5 @@ rule "check consumer samples during second cadence"
     when 
         Consumer(daysSinceRecentSample < context.secondCadenceDays && samplesDuringSecondCadence >= context.allowedSamplesDuringSecondCadence)
     then 
-        decision.setReason("more then allowed during second cadence");
+        decision.setReason(DecisionReason.REASON_MORE_THEN_ALLOWED_SAMPLES);
 end

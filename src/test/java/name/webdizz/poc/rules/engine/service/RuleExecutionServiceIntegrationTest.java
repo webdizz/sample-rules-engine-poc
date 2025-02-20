@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import name.webdizz.poc.rules.engine.domain.Consumer;
 import name.webdizz.poc.rules.engine.domain.Decision;
+import name.webdizz.poc.rules.engine.domain.DecisionReason;
 
 @SpringBootTest
 public class RuleExecutionServiceIntegrationTest {
@@ -21,6 +22,7 @@ public class RuleExecutionServiceIntegrationTest {
         Decision decision = ruleExecutionService.isSampleAllowed(consumer);
 
         assertEquals(true, decision.isApproved());
+        assertEquals(DecisionReason.ALLOWED, decision.getReason());
     }
 
     @Test
@@ -29,7 +31,7 @@ public class RuleExecutionServiceIntegrationTest {
         Decision decision = ruleExecutionService.isSampleAllowed(consumer);
 
         assertEquals(false, decision.isApproved());
-        assertEquals("more then allowed during first cadence", decision.getReason());
+        assertEquals(DecisionReason.REASON_MORE_THEN_ALLOWED_SAMPLES, decision.getReason());
     }
 
     @Test
@@ -38,7 +40,7 @@ public class RuleExecutionServiceIntegrationTest {
         Decision decision = ruleExecutionService.isSampleAllowed(consumer);
 
         assertEquals(false, decision.isApproved());
-        assertEquals("more then allowed during second cadence", decision.getReason());
+        assertEquals(DecisionReason.REASON_MORE_THEN_ALLOWED_SAMPLES, decision.getReason());
     }
 
     @Test
@@ -47,6 +49,6 @@ public class RuleExecutionServiceIntegrationTest {
         Decision decision = ruleExecutionService.isSampleAllowed(consumer);
 
         assertEquals(false, decision.isApproved());
-        assertEquals("more then allowed during second cadence", decision.getReason());
+        assertEquals(DecisionReason.REASON_MORE_THEN_ALLOWED_SAMPLES, decision.getReason());
     }
 }

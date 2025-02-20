@@ -10,7 +10,7 @@ import lombok.ToString;
 public class Decision {
 
     private boolean approved;
-    private String reason;
+    private DecisionReason reason;
 
     public Decision() {
         this.approved = false;
@@ -20,7 +20,7 @@ public class Decision {
         this.approved = true;
     }
 
-    public void reject(String reason) {
+    public void reject(DecisionReason reason) {
         this.approved = false;
         this.reason = reason;
     }
